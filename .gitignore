@@ -1,0 +1,42 @@
+# ── 白名单模式（2026-10-19 终极洗底）──
+*.md
+!README.md
+!DISCLAIMER.md
+*.txt
+!LICENSE.txt
+!NOTICE.txt
+*.lnk
+*.log
+*.zip
+*.json.bak
+.env
+settings.json
+history.json
+accounts/
+node_modules/
+src-tauri/target/
+dist/
+dist-app/
+/src/
+
+# ── 补充保护（沿用旧规则，防误传）──
+bin/
+obj/
+.venv/
+*.user
+dist-tauri/
+src-tauri/gen/
+.vs/
+.idea/
+.vscode/
+.codex/
+.workbuddy/
+work/
+.trash/
+.env.*
+.DS_Store
+Thumbs.db
+
+# ── 补充拦截（2026-10-19 终极瘦身指令）──
+交接.md
+*.ps1
