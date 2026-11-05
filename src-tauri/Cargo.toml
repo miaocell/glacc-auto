@@ -1,0 +1,26 @@
+[package]
+name = "glacc-auto"
+version = "0.2.1"
+description = "自动领取给梨加速器广告时长（Tauri v2 版骨架，与旧 Avalonia 版并存）"
+edition = "2021"
+
+[lib]
+name = "glacc_auto_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# glacc 请求签名（逐字直译旧版 GlaccSign 的 MD5，零传递依赖）
+md5 = "0.8"
+# 导入/导出凭据时的系统文件选择框（仅 Rust 侧调用，前端不经插件命令，无需 capabilities）
+tauri-plugin-dialog = "2"
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1

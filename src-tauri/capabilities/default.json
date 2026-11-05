@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "默认权限集：步 0 只开核心默认权限，业务命令权限在后续步骤按需添加",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

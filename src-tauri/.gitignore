@@ -1,0 +1,3 @@
+# Cargo 编译产物
+/target/
+/gen/schemas

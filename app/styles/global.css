@@ -1,0 +1,234 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* 显式声明扫描范围：本仓不是 git 仓库，交给 Tailwind 自动探测会漏掉 app/ 下的组件。 */
+@source "../";
+
+/* 主题切换走 <html class="dark">，由 appStore.applyTheme 写入。
+   Tailwind v4 的 dark 变体默认只看 prefers-color-scheme，这里改成看 class，
+   使「跟随系统 / 浅色 / 深色」三档都能落到同一个开关上。 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── 浅色（默认）：薄荷白背景 + 蓝绿主色 ── */
+:root {
+  --background: #f0f7f6;
+  --foreground: #1c2b2a;
+  --card: #ffffff;
+  --card-foreground: #1c2b2a;
+  --popover: #ffffff;
+  --popover-foreground: #1c2b2a;
+  --primary: #14b8a6;
+  --primary-foreground: #f0fdfa;
+  --secondary: #e3efed;
+  --secondary-foreground: #1c2b2a;
+  --muted: #e6efee;
+  --muted-foreground: #5c706e;
+  --accent: #d5efe9;
+  --accent-foreground: #0f766e;
+  --destructive: #dc2626;
+  --destructive-foreground: #fef2f2;
+  --border: #d7e4e2;
+  --input: #d7e4e2;
+  --ring: #14b8a6;
+  --rail: #e7f1ef;
+  --rail-active: #d2e9e5;
+  --log-info: #0f766e;
+  --log-warn: #b45309;
+  --log-error: #dc2626;
+  --log-debug: #64748b;
+}
+
+/* ── 深色：深海军蓝 + 亮蓝绿 ── */
+.dark {
+  --background: #0f172a;
+  --foreground: #e6edf7;
+  --card: #16233c;
+  --card-foreground: #e6edf7;
+  --popover: #16233c;
+  --popover-foreground: #e6edf7;
+  --primary: #2dd4bf;
+  --primary-foreground: #04211f;
+  --secondary: #1e2d49;
+  --secondary-foreground: #e6edf7;
+  --muted: #1d2b45;
+  --muted-foreground: #93a6c0;
+  --accent: #1f3b52;
+  --accent-foreground: #5eead4;
+  --destructive: #f87171;
+  --destructive-foreground: #2a0b0b;
+  --border: #24334f;
+  --input: #24334f;
+  --ring: #2dd4bf;
+  --rail: #0b1322;
+  --rail-active: #1b3049;
+  --log-info: #5eead4;
+  --log-warn: #fbbf24;
+  --log-error: #f87171;
+  --log-debug: #8497b0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-rail: var(--rail);
+  --color-rail-active: var(--rail-active);
+
+  /* 圆角设计令牌：卡片 12 / 按钮 8 / 弹窗 16 */
+  --radius-card: 12px;
+  --radius-btn: 8px;
+  --radius-dialog: 16px;
+
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Consolas", "Microsoft YaHei UI", monospace;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  /* ── 全局滚动条（步 8）──────────────────────────────
+     统一 6px 细条：轨道与滑块默认全透明（不滚动时看不见，系统默认的灰色方块
+     一并去掉），鼠标停在可滚动区域上时才淡入主色滑块。箭头按钮直接隐藏。
+     Firefox 走 scrollbar-width / scrollbar-color，同样做到不悬浮不显示。 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  *:hover {
+    scrollbar-color: color-mix(in srgb, var(--primary) 45%, transparent) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 999px;
+  }
+
+  /* 悬浮才显示滑块 */
+  *:hover::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--primary) 45%, transparent);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--primary) 70%, transparent);
+  }
+
+  /* 去掉两端箭头按钮（系统默认的灰色小方块） */
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* ── 全局尺寸锁死（步 9）────────────────────────────
+     整窗高度固定为视口高度且禁止溢出：软件窗口绝不出现系统级滚动条。
+     滚动只允许发生在页面内部显式声明了 overflow-y-auto 的容器里。
+     背景三层都铺满主题色，配合 tauri shadow:false 保证窗口四周不透黑边。 */
+  html,
+  body,
+  #app {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none !important;
+    outline: none !important;
+    overflow: hidden !important;
+    background-color: var(--background);
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  /* 沉浸式窗口里不需要浏览器默认的焦点描边，统一用 ring 令牌 */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 28%, transparent);
+  }
+}
+
+@layer utilities {
+  /* 细滚动条样式已在 base 层全局定义；这里保留类名只为兼容既有模板写法，
+     不再重复覆盖宽度与颜色（否则会把全局的"悬浮才显示"规则顶掉）。 */
+  .thin-scroll {
+    overflow-y: auto;
+  }
+
+  /* 日志容器专用滚动条（步 12）：默认完全透明（滚动与否都不显示），
+     鼠标悬停容器时才浮现极淡的半透明蓝绿（15%），绝不抢视觉焦点。
+     只在局部容器内部滚动，绝不参与外层窗口布局。 */
+  .soft-scrollbar {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .soft-scrollbar:hover {
+    scrollbar-color: rgba(20, 184, 166, 0.15) transparent;
+  }
+
+  .soft-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .soft-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .soft-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: transparent !important;
+  }
+
+  .soft-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(20, 184, 166, 0.15) !important;
+  }
+
+  .soft-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
