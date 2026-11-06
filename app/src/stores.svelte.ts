@@ -1,6 +1,6 @@
 // 全局状态：Svelte 5 Runes（$state）。组件里直接读 appStore.xxx，写也统一走方法。
 import { api } from "./api";
-import { applyTheme as applyThemeClass, nextTheme, THEME_LABEL } from "./lib/theme";
+import { applyTheme as applyThemeClass } from "./lib/theme";
 import type {
   Account,
   AppSettings,
@@ -253,16 +253,6 @@ class AppStore {
     // 主题类挂在 <html> 上（Tailwind dark 变体跟着 class 走），
     // 「跟随系统」也解析成具体明暗再写类，保证同一套令牌生效。
     applyThemeClass(theme);
-  }
-
-  /** 主题按钮：跟随系统 → 浅色 → 深色 → 跟随系统，改动即时落盘。 */
-  cycleTheme(): void {
-    const next = nextTheme(this.settings.theme);
-    void this.saveSettings({ theme: next });
-  }
-
-  get themeLabel(): string {
-    return THEME_LABEL[this.settings.theme];
   }
 
   // ── 轻提示 ──

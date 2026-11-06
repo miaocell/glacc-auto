@@ -33,15 +33,3 @@ export function effectiveTheme(): "light" | "dark" {
   return resolve(currentMode);
 }
 
-/** 主题循环：跟随系统 → 浅色 → 深色 → 跟随系统。 */
-export function nextTheme(mode: ThemeMode): ThemeMode {
-  if (mode === "system") return "light";
-  if (mode === "light") return "dark";
-  return "system";
-}
-
-export const THEME_LABEL: Record<ThemeMode, string> = {
-  system: "跟随系统",
-  light: "浅色",
-  dark: "深色",
-};

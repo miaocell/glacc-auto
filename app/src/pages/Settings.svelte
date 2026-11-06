@@ -3,7 +3,6 @@
   // 内容与浮窗完全一致，外壳换成页面容器，不再有遮罩/Esc/关闭按钮。
   import { appStore } from "../stores.svelte";
   import { api } from "../api";
-  import type { ThemeMode } from "../types";
   import Input from "../lib/components/ui/input/input.svelte";
   import Switch from "../lib/components/ui/switch/switch.svelte";
   import Select from "../lib/components/ui/select/select.svelte";
@@ -28,12 +27,6 @@
     value: String(i),
     label: `${i} 次`,
   }));
-
-  const themeOptions: { value: ThemeMode; label: string }[] = [
-    { value: "system", label: "跟随系统" },
-    { value: "light", label: "浅色" },
-    { value: "dark", label: "深色" },
-  ];
 
   /** 间隔输入钳制：数字、1~3600、保持 min ≤ max（越界一侧夹到另一侧）。 */
   function coerceInterval(text: string, isMin: boolean): number {
@@ -208,25 +201,6 @@
           </div>
         </div>
       {/if}
-    </div>
-  </div>
-
-  <!-- 外观 -->
-  <div class="space-y-3">
-    <h3 class="text-xl font-bold text-card-foreground">外观</h3>
-
-    <div class="flex items-center justify-between gap-4 rounded-card border border-border bg-card p-6">
-      <div class="min-w-0">
-        <div class="text-lg text-card-foreground">主题配色</div>
-        <div class="mt-1 text-sm text-muted-foreground">跟随系统、浅色或深色</div>
-      </div>
-      <Select
-        class="h-12 w-[140px] text-base"
-        value={settings.theme}
-        options={themeOptions}
-        aria-label="主题配色"
-        onValueChange={(v) => void appStore.saveSettings({ theme: v as ThemeMode })}
-      />
     </div>
   </div>
 

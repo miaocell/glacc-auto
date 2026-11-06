@@ -1,7 +1,7 @@
 {
   "name": "glacc-auto",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "自动领取给梨加速器广告时长的 Windows 桌面工具",
   "scripts": {

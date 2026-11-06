@@ -1,6 +1,6 @@
 [package]
 name = "glacc-auto"
-version = "0.2.1"
+version = "0.2.2"
 description = "自动领取给梨加速器广告时长（Tauri v2 版骨架，与旧 Avalonia 版并存）"
 edition = "2021"
 

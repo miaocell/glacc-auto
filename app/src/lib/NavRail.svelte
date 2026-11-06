@@ -8,7 +8,7 @@
   import { House, Settings, RefreshCw } from "@lucide/svelte";
   import { cn } from "./utils/cn";
 
-  const version = $derived(appStore.settings.version || "0.2.1");
+  const version = $derived(appStore.settings.version || "0.2.2");
 
   const REPO_URL = "https://github.com/miaocell/glacc-auto";
 
